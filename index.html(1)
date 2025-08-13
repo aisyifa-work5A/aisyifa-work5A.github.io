@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Toko Pernak-Pernik Vintage - Aneka Gaun</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #fdf6f0;
+        color: #5a4a42;
+        margin: 0;
+        padding: 0;
+    }
+    header {
+        text-align: center;
+        padding: 20px;
+        background-color: #fbe3e8;
+        border-bottom: 2px solid #e7d3c2;
+    }
+    header h1 {
+        font-size: 2.5rem;
+        color: #c08484;
+    }
+    .dress-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: auto;
+    }
+    .dress-card {
+        background-color: #fff8f4;
+        border: 2px solid #f3d9c4;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+    }
+    .dress-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    .dress-card img {
+        width: 100%;
+        display: block;
+    }
+    .dress-card .info {
+        padding: 15px;
+        text-align: center;
+    }
+    .dress-card .info h3 {
+        margin: 10px 0;
+        color: #b86b6b;
+    }
+    .gold-ribbon {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: gold;
+        color: white;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        animation: fadeIn 2s ease-in-out;
+    }
+    .flower-decor {
+        position: absolute;
+        bottom: -15px;
+        right: -15px;
+        width: 60px;
+        height: 60px;
+        background-image: url('https://i.ibb.co/2Skkm9r/dried-flower.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        animation: rotate 8s linear infinite;
+    }
+    @keyframes rotate {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
+    }
+    @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
+    }
+    footer {
+        text-align: center;
+        padding: 15px;
+        background-color: #fbe3e8;
+        color: #5a4a42;
+        font-size: 0.9rem;
+    }
+</style>
+</head>
+<body>
+    <header>
+        <h1>⋆. 𐙚˚࿔ House of Vintage 𝜗𝜚˚⋆</h1>
+        <p>Find your style in my world</p>
+    </header>
+
+    <div class="dress-container" id="dressDisplay"></div>
+
+    <footer>
+        &copy; 2025 Toko Pernak-Pernik Vintage. Semua Hak Dilindungi.
+    </footer>
+
+<script>
+    const dresses = [
+        {name: 'Rose Gold Dress', img: '"C:\Users\Asus\Downloads\download (7).jpg"', tag: 'Best Seller'},
+        {name: 'Vintage Pink Dress', img: '"C:\Users\Asus\Downloads\download (5).jpg"', tag: 'Baru'},
+        {name: 'White Ribbon Dress', img: '"C:\Users\Asus\Downloads\download (4).jpg"', tag: 'Limited'},
+        {name: 'Elf of Flower Dress', img: '"C:\Users\Asus\Downloads\download (6).jpg"', tag: 'Exclusive'}
+    ];
+
+    const dressDisplay = document.getElementById('dressDisplay');
+
+    dresses.forEach(dress => {
+        const card = document.createElement('div');
+        card.className = 'dress-card';
+
+        const ribbon = document.createElement('div');
+        ribbon.className = 'gold-ribbon';
+        ribbon.textContent = dress.tag;
+
+        const flower = document.createElement('div');
+        flower.className = 'flower-decor';
+
+        const img = document.createElement('img');
+        img.src = dress.img;
+        img.alt = dress.name;
+
+        const info = document.createElement('div');
+        info.className = 'info';
+        const title = document.createElement('h3');
+        title.textContent = dress.name;
+
+        info.appendChild(title);
+        card.appendChild(ribbon);
+        card.appendChild(img);
+        card.appendChild(flower);
+        card.appendChild(info);
+
+        dressDisplay.appendChild(card);
+    });
+</script>
+</body>
+</html>
