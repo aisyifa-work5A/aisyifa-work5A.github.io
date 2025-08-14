@@ -1,10 +1,21 @@
-// Utility: currency formatting (IDR)
-const fmt = (n) => new Intl.NumberFormat('id-ID', {style:'currency', currency:'IDR'}).format(n);
-
-// Year
+// ===== Utils =====
+const fmt = n => new Intl.NumberFormat('id-ID', {style:'currency', currency:'IDR'}).format(n);
 document.getElementById('year').textContent = new Date().getFullYear();
 
-// ----- Slider -----
+// ===== Backsound =====
+const bgm = document.getElementById('bgm');
+const soundToggle = document.getElementById('soundToggle');
+let soundOn = false;
+function updateSoundBtn(){ soundToggle.textContent = soundOn ? '🔈' : '🔊'; }
+soundToggle.addEventListener('click', async ()=>{
+  try{
+    if(!soundOn){ await bgm.play(); soundOn = true; } else { bgm.pause(); soundOn = false; }
+    updateSoundBtn();
+  }catch(e){ alert('Klik sekali lagi jika audio belum berjalan (kebijakan browser).'); }
+});
+updateSoundBtn();
+
+// ===== Slider =====
 const slides = [...document.querySelectorAll('.slide')];
 const dotsWrap = document.getElementById('dots');
 let current = 0, timer;
@@ -28,7 +39,7 @@ function go(n){
 }
 function next(){ go(current+1); }
 function prev(){ go(current-1); }
-function start(){ timer = setInterval(next, 4000); }
+function start(){ timer = setInterval(next, 4200); }
 function stop(){ clearInterval(timer); }
 function restart(){ stop(); start(); }
 
@@ -39,14 +50,14 @@ const slider = document.querySelector('.slider');
 slider.addEventListener('mouseenter', stop);
 slider.addEventListener('mouseleave', start);
 
-// ----- Products (Wahana) -----
+// ===== Products (Services) =====
 const products = [
-  { id:'P1', name:'Glow Mini Golf', price:45000, img:'https://images.unsplash.com/photo-1596449914667-5f2b2fc63f86?q=80&w=1200&auto=format&fit=crop', meta:'Golf mini neon 9-hole' },
-  { id:'P2', name:'Neon Arcade Pass', price:55000, img:'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop', meta:'Main sepuasnya 60 menit' },
-  { id:'P3', name:'VR Freefall', price:65000, img:'https://images.unsplash.com/photo-1581276879432-15e50529f34b?q=80&w=1200&auto=format&fit=crop', meta:'Simulasi jatuh bebas VR' },
-  { id:'P4', name:'Laser Maze', price:60000, img:'https://images.unsplash.com/photo-1553456558-aff63285bdd1?q=80&w=1200&auto=format&fit=crop', meta:'Rintang laser ala film' },
-  { id:'P5', name:'Skate Bowl Indoor', price:70000, img:'https://images.unsplash.com/photo-1510279528647-6a8e0f58a8c6?q=80&w=1200&auto=format&fit=crop', meta:'Zona skate aman & fun' },
-  { id:'P6', name:'Snack Combo', price:25000, img:'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1200&auto=format&fit=crop', meta:'Popcorn + drink' },
+  { id:'S1', name:'Haircut & Style', price:80000, img:'https://images.unsplash.com/photo-1512496015851-a90fb38ba796?q=80&w=1200&auto=format&fit=crop', meta:'Potong + blow kekinian' },
+  { id:'S2', name:'Gel Manicure', price:120000, img:'https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=1200&auto=format&fit=crop', meta:'Tahan lama & glossy' },
+  { id:'S3', name:'Hydrating Facial', price:150000, img:'https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1200&auto=format&fit=crop', meta:'Glow sehat natural' },
+  { id:'S4', name:'Keratin Hair Spa', price:220000, img:'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1200&auto=format&fit=crop', meta:'Rambut halus & kuat' },
+  { id:'S5', name:'Aromatherapy Body Spa', price:250000, img:'https://images.unsplash.com/photo-1519827119036-9141302f1e96?q=80&w=1200&auto=format&fit=crop', meta:'Relaks total' },
+  { id:'S6', name:'Deluxe Pedicure', price:110000, img:'https://images.unsplash.com/photo-1556228720-94dab7cf5f04?q=80&w=1200&auto=format&fit=crop', meta:'Kaki lembut & rapi' },
 ];
 
 const grid = document.getElementById('productGrid');
@@ -66,9 +77,9 @@ products.forEach(p=>{
   grid.appendChild(el);
 });
 
-// ----- Cart State -----
-const cart = JSON.parse(localStorage.getItem('havevun_cart') || '[]');
-const save = ()=> localStorage.setItem('havevun_cart', JSON.stringify(cart));
+// ===== Cart State =====
+const cart = JSON.parse(localStorage.getItem('ourbeutie_cart') || '[]');
+const save = ()=> localStorage.setItem('ourbeutie_cart', JSON.stringify(cart));
 
 function addItem(id, name, price, img){
   const existing = cart.find(i => i.id === id);
@@ -99,11 +110,11 @@ grid.addEventListener('click', (e)=>{
 });
 document.querySelectorAll('.add-bundle').forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    addItem(btn.dataset.id, btn.dataset.name, Number(btn.dataset.price), 'https://images.unsplash.com/photo-1533105079780-92b9be482077?q=80&w=1200&auto=format&fit=crop');
+    addItem(btn.dataset.id, btn.dataset.name, Number(btn.dataset.price), 'https://images.unsplash.com/photo-1559599238-9e70de69f2e5?q=80&w=1200&auto=format&fit=crop');
   })
 })
 
-// ----- Cart UI -----
+// ===== Cart UI =====
 const drawer = document.getElementById('cartDrawer');
 const openCart = document.getElementById('openCart');
 const closeCart = document.getElementById('closeCart');
@@ -116,7 +127,7 @@ function renderCart(){
   cartCount.textContent = cart.reduce((a,b)=>a+b.qty,0);
   cartTotalEl.textContent = fmt(cartTotal());
   if(!cart.length){
-    cartItems.innerHTML = '<p>Keranjang kosong. Yuk pilih wahana dulu!</p>';
+    cartItems.innerHTML = '<p>Keranjang kosong. Yuk pilih layanan dulu!</p>';
     return;
   }
   cart.forEach(i=>{
@@ -149,16 +160,19 @@ closeCart.addEventListener('click', ()=>{ drawer.classList.remove('open'); drawe
 
 renderCart();
 
-// ----- Checkout -----
+// ===== Checkout =====
 const checkoutBtn = document.getElementById('checkoutBtn');
+const checkoutCart = document.getElementById('checkoutCart');
 const modal = document.getElementById('checkoutModal');
 const closeCheckout = document.getElementById('closeCheckout');
 const form = document.getElementById('checkoutForm');
 
-checkoutBtn.addEventListener('click', ()=>{
+function openCheckout(){
   if(!cart.length){ ping('Keranjang masih kosong'); return; }
   modal.classList.add('show'); modal.setAttribute('aria-hidden', 'false');
-});
+}
+checkoutBtn.addEventListener('click', openCheckout);
+checkoutCart.addEventListener('click', openCheckout);
 closeCheckout.addEventListener('click', ()=>{
   modal.classList.remove('show'); modal.setAttribute('aria-hidden', 'true');
 });
@@ -166,10 +180,9 @@ closeCheckout.addEventListener('click', ()=>{
 form.addEventListener('submit', (e)=>{
   e.preventDefault();
   const data = Object.fromEntries(new FormData(form).entries());
-  // Simple fake payment then make receipt
-  const orderId = 'HV-' + Math.random().toString(36).slice(2,8).toUpperCase();
+  const orderId = 'OB-' + Math.random().toString(36).slice(2,8).toUpperCase();
   const lines = [
-    'Have Vun — E-Receipt',
+    'Our Beutie — E-Receipt',
     'Order: ' + orderId,
     'Nama: ' + data.name,
     'Email: ' + data.email,
@@ -179,23 +192,22 @@ form.addEventListener('submit', (e)=>{
     '-----------------------------',
     'TOTAL: ' + fmt(cartTotal()),
     'Catatan: ' + (data.note || '-'),
-    'Terima kasih & sampai jumpa!'
+    'Terima kasih sudah mempercayakan kecantikanmu kepada Our Beutie 💖'
   ];
   const blob = new Blob([lines.join('\n')], {type:'text/plain'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = url; a.download = orderId + '_HaveVun_Receipt.txt';
+  a.href = url; a.download = orderId + '_OurBeutie_Receipt.txt';
   a.click();
   URL.revokeObjectURL(url);
 
-  // Reset UI
   cart.splice(0, cart.length); save(); renderCart();
   form.reset();
   modal.classList.remove('show'); 
   ping('Pembayaran sukses! E-Receipt terunduh.');
 });
 
-// ----- Toast -----
+// ===== Toast =====
 const toast = document.getElementById('toast');
 let toastTimer;
 function ping(msg){
@@ -205,7 +217,7 @@ function ping(msg){
   toastTimer = setTimeout(()=> toast.classList.remove('show'), 1800);
 }
 
-// ----- Animate on scroll -----
+// ===== Animate on scroll =====
 const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{
     if(e.isIntersecting){
